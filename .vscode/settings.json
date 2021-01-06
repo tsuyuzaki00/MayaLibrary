@@ -1,0 +1,4 @@
+{
+    "python.analysis.extraPaths": ["C:/Users/tsuyuzaki.tatsuya/Documents/maya/2020/mgear/modules/scripts"]
+    "python.analysis.extraPaths": ["C:/Program Files/Autodesk/Maya2020/Python/Lib/site-packages"]
+}

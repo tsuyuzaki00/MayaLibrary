@@ -136,6 +136,9 @@ def node(sel):
     elif sel.nodeType() == 'curveInfo':
         node = 'info'
         return node
+    elif sel.nodeType() == 'skinCluster':
+        node = 'skc'
+        return node
     elif sel.nodeType() == 'lambert':
         node = 'lbt'
         #test = pm.listConnections(sel + '.color', d = True)

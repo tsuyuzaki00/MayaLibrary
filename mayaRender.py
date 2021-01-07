@@ -1,4 +1,5 @@
 import maya.cmds as cmds
+import maya.mel as mel
 
 def createPhotographSet(name = 'camera', trs = (0, 0, 5), rot = (0,0,0)):
     cam = cmds.camera(name = 'shotCam_' + name)
@@ -12,7 +13,8 @@ def createPhotographSet(name = 'camera', trs = (0, 0, 5), rot = (0,0,0)):
     cmds.parent(lit, cam[0])
     return cam
 
-def shotImages(cameraShape = [], imageName = '', width = 1920, height = 1080, imageFormat = 32, isRenderer = "mayaHardware2"):
+def shotImages(cameraShape = [], imageName = '', width = 1920, height = 1080, imageFormat = 32, isRenderer = "mayaHardware2", workSpacePath = ""):
+    mel.eval('setProject "%s";' % workSpacePath)
     cmds.setAttr("perspShape" + ".renderable", 0)
     cmds.setAttr("defaultRenderGlobals.animation", 0)
     cmds.setAttr("defaultRenderGlobals.currentRenderer", isRenderer, type = "string")
@@ -24,7 +26,8 @@ def shotImages(cameraShape = [], imageName = '', width = 1920, height = 1080, im
     cmds.render(b = True, rep = True)
     cmds.delete(cameraShape[0])
 
-def secenece(cameraShape = [], imageName = '', width = 1920, height = 1080, imageFormat = 32, isRenderer = "mayaHardware2", startFrame = 0, endFrame = 1):
+def secenece(cameraShape = [], imageName = '', width = 1920, height = 1080, imageFormat = 32, isRenderer = "mayaHardware2", workSpacePath = "", startFrame = 0, endFrame = 1):
+    mel.eval('setProject "%s";' % workSpacePath)
     cmds.setAttr("perspShape" + ".renderable", 0)
     cmds.setAttr("defaultRenderGlobals.currentRenderer", isRenderer, type = "string")
     cmds.setAttr("defaultRenderGlobals.imageFilePrefix", imageName, type = "string")
@@ -42,8 +45,25 @@ def secenece(cameraShape = [], imageName = '', width = 1920, height = 1080, imag
     cmds.setAttr("defaultRenderGlobals.periodInExt", 2)
     cmds.render(b = True, rep = True)
 
-def playblast():
-    pass
+def playblast(cameraShape = [], imageName = '', width = 1920, height = 1080, imageFormat = 32, isRenderer = "mayaHardware2", workSpacePath = "", startFrame = 0, endFrame = 1):
+    mel.eval('setProject "%s";' % workSpacePath)
+    mel.eval('setProject "%s";' % workSpacePath)
+    cmds.setAttr("perspShape" + ".renderable", 0)
+    cmds.setAttr("defaultRenderGlobals.currentRenderer", isRenderer, type = "string")
+    cmds.setAttr("defaultRenderGlobals.imageFilePrefix", imageName, type = "string")
+    cmds.setAttr("defaultResolution.width", width)
+    cmds.setAttr("defaultResolution.height", height)
+    cmds.setAttr("defaultRenderGlobals.imageFormat", imageFormat)
+    cmds.setAttr(cameraShape[1] + ".renderable", 1)
+    cmds.setAttr("defaultRenderGlobals.outFormatControl", 0)
+    cmds.setAttr("defaultRenderGlobals.animation", 1)
+    cmds.setAttr("defaultRenderGlobals.animationRange", 0)
+    cmds.setAttr("defaultRenderGlobals.extensionPadding", 3)
+    cmds.setAttr("defaultRenderGlobals.startFrame", startFrame)
+    cmds.setAttr("defaultRenderGlobals.endFrame", endFrame)
+    cmds.setAttr("defaultRenderGlobals.putFrameBeforeExt", 1)
+    cmds.setAttr("defaultRenderGlobals.periodInExt", 2)
+    cmds.render(b = True, rep = True)
 
-def wireFrameImage():
-    pass
+def wireFrameImage(cameraShape = [], imageName = '', width = 1920, height = 1080, imageFormat = 32, isRenderer = "mayaHardware2", workSpacePath = ""):
+    mel.eval('setProject "%s";' % workSpacePath)

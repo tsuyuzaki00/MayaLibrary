@@ -38,6 +38,7 @@ def node(sel):
             return node
         elif pm.listRelatives(sel, c = True, type = 'mesh'):
             node = 'geo'
+            # cage
             return node
         elif pm.listRelatives(sel, c = True, type = 'nurbsCurve'):
             node = 'ctl'
@@ -138,6 +139,7 @@ def node(sel):
         return node
     elif sel.nodeType() == 'skinCluster':
         node = 'skc'
+        # csw = copy skin weights
         return node
     elif sel.nodeType() == 'lambert':
         node = 'lbt'

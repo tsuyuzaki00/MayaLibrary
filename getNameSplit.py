@@ -1,6 +1,6 @@
 import pymel.core as pm
 
-def scene(sel):
+def scene():
     sceneName = pm.sceneName().basename()
     part = sceneName.split("_")
     if part[0].endswith('.ma') or part[0].endswith('.mb'):
@@ -84,10 +84,10 @@ def node(sel):
         node = 'prc'
         return node
     elif sel.nodeType() == 'pointConstraint':
-        node = 'ptc'
+        node = 'pnc'
         return node
     elif sel.nodeType() == 'orientConstraint':
-        node = 'otc'
+        node = 'orc'
         return node
     elif sel.nodeType() == 'scaleConstraint':
         node = 'slc'
@@ -141,6 +141,7 @@ def node(sel):
         node = 'skc'
         # csw = copy skin weights
         return node
+    elif 
     elif sel.nodeType() == 'lambert':
         node = 'lbt'
         #test = pm.listConnections(sel + '.color', d = True)

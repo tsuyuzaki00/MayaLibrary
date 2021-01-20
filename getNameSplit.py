@@ -15,7 +15,7 @@ def obj(sel):
     part = sel.split("_")
 
     if part[0] == pos(sel):
-        if part[1] == scene(sel):
+        if part[1] == scene():
             obj = part[2]
             return obj
         else :
@@ -24,7 +24,7 @@ def obj(sel):
     elif part[0] == node(sel):
         obj = part[1]
         return obj
-    elif part[0] == scene(sel):
+    elif part[0] == scene():
         obj = part[1]
         return obj     
     else :
@@ -141,12 +141,11 @@ def node(sel):
         node = 'skc'
         # csw = copy skin weights
         return node
-    elif 
     elif sel.nodeType() == 'lambert':
         node = 'lbt'
         #test = pm.listConnections(sel + '.color', d = True)
         #print test
-        #pm.rename(color,node + obj(sel) + scene(sel))
+        #pm.rename(color,node + obj(sel) + scene())
         return node
 
     #elif sel.nodeType() == 'file':
@@ -220,7 +219,7 @@ def num(sel):
 def main():
     sels = pm.selected()
     for sel in sels:
-        lists = [pos(sel),obj(sel),node(sel),scene(sel),num(sel)]
+        lists = [pos(sel),obj(sel),node(sel),scene(),num(sel)]
         names = [l for l in lists if l != '']
         autoRename = '_'.join(names)
         pm.rename(sel, autoRename)

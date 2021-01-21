@@ -56,16 +56,16 @@ def node(sel):
             node = 'image'
             return node
         elif pm.listRelatives(sel, c = True, type = 'spotLight'):
-            node = 'stl'
+            node = 'spl'
             return node
         elif pm.listRelatives(sel, c = True, type = 'ambientLight'):
-            node = 'atl'
+            node = 'aml'
             return node
         elif pm.listRelatives(sel, c = True, type = 'pointLight'):
-            node = 'ptl'
+            node = 'pol'
             return node
         elif pm.listRelatives(sel, c = True, type = 'directionalLight'):
-            node = 'dtl'
+            node = 'drl'
             return node
         elif pm.listRelatives(sel, c = True, type = 'follicle'):
             node = 'flc'
@@ -99,10 +99,10 @@ def node(sel):
         node = 'pvc'
         return node
     elif sel.nodeType() == 'ikHandle':
-        node = 'hdl'
+        node = 'ikhl'
         return node
     elif sel.nodeType() == 'ikEffector':
-        node = 'eff'
+        node = 'ikef'
         return node
     elif sel.nodeType() == 'condition':
         node = 'cnd'

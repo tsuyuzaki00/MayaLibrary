@@ -62,8 +62,6 @@ def choiceNode(create = '', name = ''):
     elif create == 'nullNode' or create == 'transform':
         sel = pm.createNode('transform', n = name)
         renameNode(sel = sel)
-    elif create == 'joint':
-        pass
     elif create == 'ikHandle':
         sel = pm.selected()
         ikHand = pm.ikHandle(sj = sel[0], ee = sel[1], n = name)

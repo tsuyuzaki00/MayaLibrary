@@ -182,7 +182,8 @@ def pos(sel):
 def num(sel):
     part = sel.split("_")
     try:
-        pass
+        part[-1]
+        part[-2]
     except IndexError:
         num = '0'.zfill(2)
         return num
@@ -214,11 +215,4 @@ def num(sel):
         else :
             num = '0'.zfill(2)
             return num
-    
-def main():
-    sels = pm.selected()
-    for sel in sels:
-        lists = [pos(sel),obj(sel),node(sel),scene(),num(sel)]
-        names = [l for l in lists if l != '']
-        autoRename = '_'.join(names)
-        pm.rename(sel, autoRename)
+

@@ -182,8 +182,7 @@ def pos(sel):
 def num(sel):
     part = sel.split("_")
     try:
-        print part[1]
-        print part[2]
+        pass
     except IndexError:
         num = '0'.zfill(2)
         return num

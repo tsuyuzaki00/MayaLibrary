@@ -47,8 +47,8 @@ def secenece(cameraShape = [], fileName = '', width = 1920, height = 1080, image
 
 def runPlayblast(cam = '', fileName = '', width = 1920, height = 1080, workSpacePath = '', startFrame = 0, endFrame = 3):
     mel.eval('setProject "%s";' % workSpacePath)
-    cmds.lookThru(cam)
     path = cmds.workspace(q=True,rootDirectory=1)+'movies/'
+    cmds.lookThru(cam)
     cmds.playblast(st = startFrame, et = endFrame, fo = True, w = width, h = height, v = False, c = 'h264', orn = True, fmt = 'qt', p = 100, f = path + fileName)
 
 def wireFrameImage(cameraShape = [], fileName = '', width = 1920, height = 1080, imageFormat = 32, isRenderer = 'mayaHardware2', workSpacePath = ''):

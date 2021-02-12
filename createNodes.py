@@ -3,78 +3,75 @@ import sys
 import os
 sys.path.append(os.path.abspath(".."))
 from MayaLibrary import getNameSplit as gns
+class CreateNode():
+    def __init__(self, name = ''):
+        self.name = name
+    
+    def cameraNode(self):
+        sel = pm.camera(n = self.name)
+        self.renameTemplate(sel = sel[0])
 
-'''
-#choiceNode create = 
-'camera'
-'polyCube'
-'polyBall'
-'polyCylinder'
-'polyPlane'
-'imagePlane'
-'spotLight'
-'pointLight'
-'directionalLight'
-'ambientLight'
-'spaceLocator'
-'ikHandle'
-'''
+    def polyCubeNode(self):
+        sel = pm.polyCube(n = self.name)
+        self.renameTemplate(sel = sel[0])
 
-def choiceNode(create = '', name = ''):
-    if create == 'camera':
-        sel = pm.camera(n = name)
-        renameNode(sel = sel[0])
-    elif create == 'polyCube':
-        sel = pm.polyCube(n = name)
-        renameNode(sel = sel[0])
-    elif create == 'polyBall':
-        sel = pm.polyCube(n = name)
+    def polyBallNode(self):
+        sel = pm.polyCube(n = self.name)
         pm.polySmooth(dv = 2)
-        renameNode(sel = sel[0])
-    elif create == 'polyCylinder':
-        sel = pm.polyCylinder(sc = 2 ,sa = 16, n = name)
-        renameNode(sel = sel[0])
-    elif create == 'polyPlane':
-        sel = pm.polyPlane(w = 10, h = 10, n = name)
-        renameNode(sel = sel[0])
-    elif create == 'imagePlane':
-        sel = pm.imagePlane(n = name)
-        renameNode(sel = sel[0])
-    elif create == 'spotLight':
-        shape = pm.spotLight(n = name)
+        self.renameTemplate(sel = sel[0])
+
+    def polyCylinderNode(self):
+        sel = pm.polyCylinder(sc = 2 ,sa = 16, n = self.name)
+        self.renameTemplate(sel = sel[0])
+
+    def polyPlaneNode(self):
+        sel = pm.polyPlane(w = 10, h = 10, n = self.name)
+        self.renameTemplate(sel = sel[0])
+
+    def imagePlaneNode(self):
+        sel = pm.imagePlane(n = self.name)
+        self.renameTemplate(sel = sel[0])
+
+    def spotLightNode(self):
+        shape = pm.spotLight(n = self.name)
         sel = pm.listRelatives(shape, p = True)
-        renameNode(sel = sel[0])
-    elif create == 'pointLight':
-        shape = pm.pointLight(n = name)
+        self.renameTemplate(sel = sel[0])
+
+    def pointLightNode(self):
+        shape = pm.pointLight(n = self.name)
         sel = pm.listRelatives(shape, p = True)
-        renameNode(sel = sel[0])
-    elif create == 'directionalLight':
-        shape = pm.directionalLight(n = name)
+        self.renameTemplate(sel = sel[0])
+
+    def directionalLightNode(self):
+        shape = pm.directionalLight(n = self.name)
         sel = pm.listRelatives(shape, p = True)
-        renameNode(sel = sel[0])
-    elif create == 'ambientLight':
-        shape = pm.ambientLight(n = name)
+        self.renameTemplate(sel = sel[0])
+
+    def ambientLightNode(self):
+        shape = pm.ambientLight(n = self.name)
         sel = pm.listRelatives(shape, p = True)
-        renameNode(sel = sel[0])
-    elif create == 'spaceLocator':
-        sel = pm.spaceLocator(n = name)
-        renameNode(sel = sel[0])
-    elif create == 'nullNode' or create == 'transform':
-        sel = pm.createNode('transform', n = name)
-        renameNode(sel = sel)
-    elif create == 'ikHandle':
+        self.renameTemplate(sel = sel[0])
+
+    def spaceLocatorNode(self):
+        sel = pm.spaceLocator(n = self.name)
+        self.renameTemplate(sel = sel[0])
+
+    def nullNode(self):
+        sel = pm.createNode('transform', n = self.name)
+        self.renameTemplate(sel = sel)
+
+    def ikHandleNode(self):
         sel = pm.selected()
-        ikHand = pm.ikHandle(sj = sel[0], ee = sel[1], n = name)
-        test = pm.rename(ikHand[1], name)
-        renameNode(sel = ikHand[0])
-        renameNode(sel = test)
+        ikHand = pm.ikHandle(sj = sel[0], ee = sel[1], n = self.name)
+        test = pm.rename(ikHand[1], self.name)
+        self.renameTemplate(sel = ikHand[0])
+        self.renameTemplate(sel = test)
 
-def renameNode(sel):
-    scene = gns.scene()
-    num = '1'.zfill(2)
-    node = gns.node(sel)
-    obj = gns.obj(sel)
-    pos = gns.pos(sel)
-        
-    pm.rename(sel, '_'.join( [pos, obj, node, scene, num] ))
+    def renameTemplate(self, sel):
+        scene = gns.scene()
+        num = '1'.zfill(2)
+        node = gns.node(sel)
+        obj = gns.obj(sel)
+        pos = gns.pos(sel)
 
+        pm.rename(sel, '_'.join( [pos, obj, node, scene, num] ))

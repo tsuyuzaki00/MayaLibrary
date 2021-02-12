@@ -71,13 +71,6 @@ class GetNameSplit():
             elif pm.listRelatives(sel, c = True, type = 'follicle'):
                 node = 'flc'
                 return node
-            #transNode
-            'null'
-            'offset'
-            'move' 
-            'space'
-            'trs'
-            'grp'
         elif sel.nodeType() == 'joint':
             node = 'jnt'
             return node
@@ -217,3 +210,10 @@ class GetNameSplit():
                 num = '0'.zfill(2)
                 return num
 
+    def sameNameCheck(self, check):
+        print (check)
+        if pm.objExists(check):
+            check = check + '_NG'
+            return check
+        else :
+            return check

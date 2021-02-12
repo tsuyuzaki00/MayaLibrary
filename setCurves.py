@@ -3,16 +3,16 @@ import sys
 import os
 sys.path.append(os.path.abspath(".."))
 from MayaLibrary import getNameSplits as gns
-
 class SetCurve():
     def __init__(self, name):
         self.name = name
 
     def renameTemplate(self, sel):
-        scene = gns.scene()
+        getNameSplit = gns.GetNameSplit()
+        scene = getNameSplit.scene()
         num = '1'.zfill(2)
-        node = gns.node(sel)
-        pos = gns.pos(sel)
+        node = getNameSplit.node(sel)
+        pos = getNameSplit.pos(sel)
         rename = '_'.join([pos, self.name, node, scene, num])
         return rename
 

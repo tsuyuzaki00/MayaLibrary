@@ -2,7 +2,7 @@ import pymel.core as pm
 import sys
 import os
 sys.path.append(os.path.abspath(".."))
-from MayaLibrary import getNameSplit as gns
+from MayaLibrary import getNameSplits as gns
 class CreateNode():
     def __init__(self, name = ''):
         self.name = name
@@ -68,10 +68,11 @@ class CreateNode():
         self.renameTemplate(sel = test)
 
     def renameTemplate(self, sel):
-        scene = gns.scene()
+        getNameSplit = gns.GetNameSplit()
+        scene = getNameSplit.scene()
         num = '1'.zfill(2)
-        node = gns.node(sel)
-        obj = gns.obj(sel)
-        pos = gns.pos(sel)
+        node = getNameSplit.node(sel)
+        obj = getNameSplit.obj(sel)
+        pos = getNameSplit.pos(sel)
 
         pm.rename(sel, '_'.join( [pos, obj, node, scene, num] ))

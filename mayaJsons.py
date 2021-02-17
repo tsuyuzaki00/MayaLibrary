@@ -1,84 +1,71 @@
-import pymel.core as pm
 import maya.cmds as cmds
 import json
 import os
-from collections import OrderedDict as od
 
-class MayaJson:
-    def __init__(self):
-        #filePass = 'C:/Users/tsuyuzaki.tatsuya/Desktop/test/output.json'
-        self.filePass = 'testScripts/jsonTest.json'
+class MayaJsonMake():
+    def __init__(self, mayaName, jsonName):
+        self.mayaName = mayaName
+        self.jsonName = jsonName + ".json"
+        self.projectDir = cmds.workspace(q=True,rootDirectory=1)
+        self.scenePath = cmds.file(q=True, sn=True)
+        self.sceneDir = os.path.dirname(self.scenePath)
 
-    def createFileJson(self):
-        dataPath = cmds.workspace(q=True,rootDirectory=1)+'data/'
-        files = os.listdir(dataPath)
-        if 'json' in files:
-            jsonPath = dataPath + 'json/'
+#create---------------------------------
+    # createFolder & jsonFolderPass
+    def homeJsonFolder(self):
+        dataDir = self.projectDir + 'data/'
+        dataFiles = os.listdir(dataDir)
+        if 'json' in dataFiles:
+            jsonDir = dataDir + 'json/'
         else:
-            os.mkdir(dataPath + 'json')
-            jsonPath = dataPath + 'json/'
+            os.mkdir(dataDir + 'json')
+            jsonDir = dataDir + 'json/'
 
-        files = os.listdir(jsonPath)
-        filepath = cmds.file(q=True, sn=True)
-        filename = os.path.basename(filepath)
-        raw_name, extension = os.path.splitext(filename)
-        if raw_name in files:
-            getJsons = jsonPath + raw_name + '/'
+        jsonFiles = os.listdir(jsonDir)
+        maName = os.path.basename(self.scenePath)
+        raw_name = os.path.splitext(maName)[0]
+        if raw_name in jsonFiles:
+            getJsons = jsonDir + raw_name + '/'
         else:
-            os.mkdir(jsonPath + raw_name)
-            getJsons = jsonPath + raw_name + '/'
-        
+            os.mkdir(jsonDir + raw_name)
+            getJsons = jsonDir + raw_name + '/'
         return getJsons
 
-    def writeJson(self):
-        s =  ["help_grp_mb", "guide"],{
-            "parent":"gmr_chr_mb1_pxr_grp", "child":"mb1Rig"}
-        
-        with open(self.filePass, 'w') as f:
-            json.dump(s, f, indent = 4, ensure_ascii = False)
-    
-    def readJson(self):
-        with open(self.filePass, 'r') as f:
+    # load json string
+    def loadJsonFolder(self):
+        loadJson = self.homeJsonFolder() + self.jsonName
+        with open(loadJson, 'r') as f:
             roots = json.load(f)
-            for root in roots:
-                print(root)
+            return roots
 
-    def parentJson(self, parent, child):
-        s = {"parent":parent, "child":child}
-        with open(self.filePass, 'w') as f:
-            json.dump(s, f, indent = 4, ensure_ascii = False)
-
-    def jointHierarchyExportJson(self):
-        jsonPath = self.createFileJson()
-        sels = pm.selected()
-        s = []
-        setNode = {}
-        margeNode = {}
-        timeNode = {"key":1}
-
-        for sel in sels:
-            selLists = pm.listAttr(k=True)
-            for selList in selLists:
-                selAttr = pm.getAttr(sel + '.' + selList)
-                keyNode = {selList:round(selAttr,3)}
-                setNode.update(keyNode)
-                objDict = {str(sel):setNode}
-            margeNode.update(objDict)
-            timeNode.update(margeNode)
-        s.append(timeNode)
-
-        with open(jsonPath + 'jointHierarchy.json', 'w') as f:
-        	json.dump(s, f, indent = 4, ensure_ascii = False)
-
-    def jointHierarchyImportJson(self):
-        jsonPath = self.createFileJson()
-        with open(jsonPath + 'jointHierarchy.json', 'r') as f:
+#edit-----------------------------------
+    # select delete list up 
+    def selDelLists(self, sels = []):
+        loadJson = self.homeJsonFolder() + self.jsonName
+        with open(loadJson, 'r') as f:
             roots = json.load(f)
-            for root in roots:
-                keys = root.keys()
-                for key in keys:
-                    pm.setAttr(key + ".rotateX", root[key]["rotateY"])
-                    pm.setAttr(key + ".rotateY", root[key]["rotateY"])
-                    pm.setAttr(key + ".rotateZ", root[key]["rotateZ"])
-                #pm.setAttr('leg_L0_fk0_ctl.rotateZ', root["Character1_LeftLeg"]["rotateZ"])
+            addDel = list(set(roots[0] + sels))
+            s = [addDel, roots[1]]
+            print (s)
+            with open(loadJson, 'w') as f:
+                json.dump(s, f, indent = 4, ensure_ascii = False)
 
+    # tow selects parent
+    def selTwoParentLists(self, parent = '', child = ''):
+        loadJson = self.homeJsonFolder() + self.jsonName
+        with open(loadJson, 'r') as f:
+            roots = json.load(f)
+            s = [roots[0], roots[1]]
+            s.append({"parent":parent,"child":child})
+            with open(loadJson, 'w') as f:
+                json.dump(s, f, indent = 4, ensure_ascii = False)
+
+class MayaJsonRun():
+    # read json run
+    def animEXFile(self, deleteLists = [], parentList = []):
+        cmds.file(save=True, force=True)
+        cmds.file(rename = self.sceneDir + '/' + self.mayaName)
+        for deleteList in deleteLists:
+    	        cmds.delete(deleteList)
+        cmds.parent(parentList["child"], parentList["parent"])
+        cmds.file(save=True, force=True)

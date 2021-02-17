@@ -3,8 +3,7 @@ import json
 import os
 
 class MayaJsonMake():
-    def __init__(self, mayaName, jsonName):
-        self.mayaName = mayaName
+    def __init__(self, jsonName):
         self.jsonName = jsonName + ".json"
         self.projectDir = cmds.workspace(q=True,rootDirectory=1)
         self.scenePath = cmds.file(q=True, sn=True)
@@ -46,7 +45,6 @@ class MayaJsonMake():
             roots = json.load(f)
             addDel = list(set(roots[0] + sels))
             s = [addDel, roots[1]]
-            print (s)
             with open(loadJson, 'w') as f:
                 json.dump(s, f, indent = 4, ensure_ascii = False)
 
@@ -61,6 +59,8 @@ class MayaJsonMake():
                 json.dump(s, f, indent = 4, ensure_ascii = False)
 
 class MayaJsonRun():
+    def __init__(self, mayaName):
+        self.mayaName = mayaName
     # read json run
     def animEXFile(self, deleteLists = [], parentList = []):
         cmds.file(save=True, force=True)
